@@ -9,5 +9,9 @@ def index(request):
     context = {'car_list': car_list}
     return render(request, 'djangautoapi/index.html', context)
 
-def detail(request, carmodel_id):
-    return HttpResponse("You're looking at car %s." % carmodel_id)
+def detail(request, car_id):
+    try:
+        car = Car.objects.get(pk=car_id)
+    except Car.DoesNotExist:
+        raise Http404("Car does not exist")
+    return render(request, 'djangautoapi/detail.html', {'car': car})
