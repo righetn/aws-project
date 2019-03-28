@@ -41,7 +41,8 @@ def add_brand(request):
 def add_model(request, car_id):
     try:
         model_name = request.POST['model_name']
-        carmodel = CarModel(car = car_id, model_name = model_name)
+        car = Car.objects.get(pk = car_id)
+        carmodel = CarModel(car = car, model_name = model_name)
         carmodel.save()
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")

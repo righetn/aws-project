@@ -1,10 +1,89 @@
-<h1>{{ car.brand }}</h1>
-{% if carmodel_list %}
-    <ul>
-    {% for carmodel in carmodel_list %}
-        <li><a href="{% url 'model_detail' car.id carmodel.id %}"">{{ carmodel }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No cars are available.</p>
-{% endif %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Djangauto - Modèles de {{car.brand}}</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+            html {
+                height: 100%;
+                background: linear-gradient(#ffffff, #c7cbf7);
+                background-repeat: no-repeat;
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            h1 {
+                font-size: 40px;
+                color: rgb(216, 84, 84);
+            }
+
+            ul {
+                list-style-type: none;
+                font-size: 1.5em;
+            }
+
+            a {
+                text-decoration: none;
+                color: white;
+            }
+
+            .link {
+                display:inline-block;
+                transition: all .2s ease-in-out;
+                border: 1px solid #abb1f1;
+                padding: 10px;
+                margin-bottom: 10px;
+                background: rgb(102, 102, 185);
+                min-width: 150px;
+                text-align: center;
+                border-radius: 8px;
+            }
+
+            .link:hover {
+                transform: translateX(10px);
+                background: rgb(115, 115, 189);
+            }
+
+            input {
+                font-size: 1.5em;
+                padding: 10px;
+                border: none;
+                border: 1px solid #c7cbf7;
+                border-radius: 8px;
+                outline: none;
+            }
+        </style>    
+    </head>
+    <body>
+        <section class="car-brand-list">
+            <h1>Liste des modèles de {{car.brand}}</h1>
+            {% if carmodel_list %}
+                <ul>
+                {% for carmodel in carmodel_list %}
+                    <li>
+                        <div class="link">
+                            <a href="{% url 'model_detail' car.id carmodel.id %}"">{{ carmodel }}</a>
+                        </div>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No cars are available.</p>
+            {% endif %}
+        </section>
+        <section class="new-car-brand">
+            <!-- <form action="">
+                <label for="brand-name"></label>
+                <input type="text" name="brand-name"><br>
+                <input type="submit" value="Submit">
+            </form> -->
+
+            <h1>Ajouter un nouveau modèle de {{car.brand}}</h1>
+            <form action="{% url 'add_model' car.id %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="model_name" id="model-name" value="" placeholder="Nom du modèle...">
+                <input type="submit" value="Ajouter">
+            </form>
+        </section>    
+    </body>
+</html>

@@ -3,20 +3,23 @@
     <head>
         <title>Djangauto - Marques de voitures</title>
         <style>
+            @import url('https://fonts.googleapis.com/css?family=Montserrat');
+
             html {
                 height: 100%;
                 background: linear-gradient(#ffffff, #c7cbf7);
                 background-repeat: no-repeat;
+                font-family: 'Montserrat', sans-serif;
             }
 
             h1 {
-                font-size: 35px;
+                font-size: 40px;
                 color: rgb(216, 84, 84);
             }
 
             ul {
                 list-style-type: none;
-                font-size: 1.2em;
+                font-size: 1.5em;
             }
 
             a {
@@ -31,10 +34,23 @@
                 padding: 10px;
                 margin-bottom: 10px;
                 background: rgb(102, 102, 185);
+                min-width: 150px;
+                text-align: center;
+                border-radius: 8px;
             }
 
             .link:hover {
                 transform: translateX(10px);
+                background: rgb(115, 115, 189);
+            }
+
+            input {
+                font-size: 1.5em;
+                padding: 10px;
+                border: none;
+                border: 1px solid #c7cbf7;
+                border-radius: 8px;
+                outline: none;
             }
         </style>    
     </head>
