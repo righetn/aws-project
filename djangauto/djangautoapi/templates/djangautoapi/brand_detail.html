@@ -71,7 +71,7 @@
                 {% for carmodel in carmodel_list %}
                     <li>
                         <div class="link">
-                            <a href="{% url 'model_detail' car.id carmodel.id %}"">{{ carmodel }}</a>
+                            <a href="{% url 'model_detail' car.brand carmodel.model_name %}"">{{ carmodel }}</a>
                         </div>
                     </li>
                 {% endfor %}
