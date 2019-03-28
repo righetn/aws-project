@@ -1,4 +1,4 @@
-manage.py makemigrations
-manage.py migrate
-manage.py createsuperuser
-manage.py runserver
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
