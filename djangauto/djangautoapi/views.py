@@ -24,15 +24,10 @@ def brand_detail(request, brand):
 
 def model_detail(request, brand, model_name):
     try:
-        carmodel_list = CarModel.objects.get(model_name = model_name)
-        carmodel = carmodel_list 
+        carmodel = CarModel.objects.get(model_name = model_name)
 
-<<<<<<< HEAD
         model_name = carmodel.model_name
         directory = '../static/voitures/' + brand + '/' + model_name + '/'
-=======
-        directory = '../voitures/' + brand + '/' + model_name + '/'
->>>>>>> 4b3a355e40f392c64215356cd3bf752882ddddd4
         if not os.path.exists(directory):
             gis = GoogleImagesSearch('AIzaSyDL-iX9_5bYDWB5BHzXuMcV7xHt4_7X2JM', '003405953032685171249:uzag_hgt6fs')
             gis.search({'q': brand + ' ' + model_name, 'num': 3})
@@ -63,11 +58,7 @@ def add_brand(request):
 def add_model(request, brand):
     try:
         model_name = request.POST['model_name']
-<<<<<<< HEAD
-        car = Car.objects.get(pk = car_id)
-=======
         car = Car.objects.get(brand = brand)
->>>>>>> 4b3a355e40f392c64215356cd3bf752882ddddd4
         carmodel = CarModel(car = car, model_name = model_name)
         carmodel.save()
     except (Car.DoesNotExist):
