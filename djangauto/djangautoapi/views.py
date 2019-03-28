@@ -24,8 +24,8 @@ def brand_detail(request, brand):
 
 def model_detail(request, brand, model_name):
     try:
-        carmodel_list = CarModel.objects.filter(model_name = model_name)
-        carmodel = carmodel_list[0] 
+        carmodel_list = CarModel.objects.get(model_name = model_name)
+        carmodel = carmodel_list 
 
         directory = '../voitures/' + brand + '/' + model_name + '/'
         if not os.path.exists(directory):

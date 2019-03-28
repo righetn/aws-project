@@ -2,7 +2,7 @@
 {% if carmodel_list %}
     <ul>
     {% for carmodel in carmodel_list %}
-        <li><a href="{% url 'model_detail' car.id carmodel.id %}"">{{ carmodel }}</a></li>
+        <li><a href="{% url 'model_detail' car.brand carmodel.model_name %}"">{{ carmodel }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
