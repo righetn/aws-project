@@ -13,7 +13,7 @@ def index(request):
 def detail(request, car_id):
     try:
         car = Car.objects.get(pk=car_id)
-        carmodel_list = CarModel.objects.filter(car = car_id)
+        carmodel_list = CarModel.objects.filter(car = car_id).order_by('model_name')
         context = {'car': car, 'carmodel_list': carmodel_list}
     except Car.DoesNotExist:
         raise Http404("Car does not exist")
