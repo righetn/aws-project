@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name="Cars"),
     path('addbrand/', views.add_brand, name="add_brand"),
-    path('<slug:brand>/addmodel/', views.add_model, name="add_model"),
-    path('<slug:brand>/', views.brand_detail, name="brand_detail"),
-    path('<slug:brand>/<slug:model_name>/', views.model_detail, name="model_detail"),
+    path('brand-<str:brand>/addmodel/', views.add_model, name="add_model"),
+    path('brand-<str:brand>/', views.brand_detail, name="brand_detail"),
+    path('brand-<str:brand>/model-<str:model_name>/', views.model_detail, name="model_detail"),
 ]
