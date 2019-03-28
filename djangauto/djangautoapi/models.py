@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Car(models.Model):
-    brand = models.CharField(max_length=200)
+    brand = models.CharField(max_length=200, unique=True)
     creation_date = models.DateTimeField('creation date')
 
     def __str__(self):
