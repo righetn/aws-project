@@ -25,8 +25,6 @@ def brand_detail(request, brand):
 def model_detail(request, brand, model_name):
     try:
         carmodel = CarModel.objects.get(model_name = model_name)
-
-        model_name = carmodel.model_name
         directory = '../static/voitures/' + brand + '/' + model_name + '/'
         if not os.path.exists(directory):
             gis = GoogleImagesSearch('AIzaSyDL-iX9_5bYDWB5BHzXuMcV7xHt4_7X2JM', '003405953032685171249:uzag_hgt6fs')
