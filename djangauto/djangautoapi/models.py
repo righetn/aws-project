@@ -14,4 +14,4 @@ class CarModel(models.Model):
     model_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.model_name + str(car)
+        return str(self.car) + " " + self.model_name

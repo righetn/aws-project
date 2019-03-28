@@ -1,1 +1,10 @@
 <h1>{{ car.brand }}</h1>
+{% if carmodel_list %}
+    <ul>
+    {% for carmodel in carmodel_list %}
+        <li>{{ carmodel }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No cars are available.</p>
+{% endif %}
