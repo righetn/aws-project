@@ -5,6 +5,8 @@ from datetime import datetime
 from .models import Car
 from .models import CarModel
 
+from google_images_search import GoogleImagesSearch
+
 def index(request):
     car_list = Car.objects.order_by('brand')
     context = {'car_list': car_list}
@@ -23,7 +25,22 @@ def model_detail(request, car_id, model_id):
     try:
         carmodel_list = CarModel.objects.filter(pk = model_id)
         carmodel = carmodel_list[0]
-        context = {'carmodel': carmodel}
+        brand = Car.objects.get(pk = car_id).brand
+
+        model_name = carmodel['model_name']
+        directory = '../../voitures' + brand + '/' + model_name + '/')
+        gis = GoogleImagesSearch('AIzaSyDL-iX9_5bYDWB5BHzXuMcV7xHt4_7X2JM', '003405953032685171249:uzag_hgt6fs')
+        gis.search({'q': brand + ' ' + model_name, 'num': 3})
+        for image in gis.results():
+            image.download(directory)
+            image.resize(500, 500)
+        for root, dirs, files in os.walk(diretory):
+            i = 0
+            for filename in files:
+                os.rename(directory + filename, directory + 'voiture' + i + '.jpg')
+                i += 1
+
+        context = {'carmodel': carmodel, 'brand': brand}
     except CarModel.DoesNotExist:
         raise Http404("CarModel does not exist")
     return render(request, 'djangautoapi/model_detail.html', context)
