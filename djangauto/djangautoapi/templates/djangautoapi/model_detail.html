@@ -1,1 +1,33 @@
-<h1>{{ carmodel.model_name }}</h1>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Djangauto - Marques de voitures</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Montserrat');
+
+            html {
+                height: 100%;
+                background: linear-gradient(#ffffff, #c7cbf7);
+                background-repeat: no-repeat;
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            h1 {
+                font-size: 40px;
+                color: rgb(216, 84, 84);
+            }
+        </style>    
+    </head>
+    <body>
+        <h1>Détails de la {{ brand }} {{ carmodel.model_name }}</h1>
+        <div class="grid-wrapper">
+            <div class="img">
+                {% load static %}
+                <img src="{% static "voitures/"|add:brand|add:"/"|add:carmodel.model_name|add:"/voiture0.jpg" %}" alt="img1">
+                <img src="{% static "" %}voitures/{{ brand }}/{{ carmodel.model_name }}/voiture1.jpg" alt="img2">
+                <img src="{% static "" %}voitures/{{ brand }}/{{ carmodel.model_name }}/voiture2.jpg" alt="img3">
+            </div>
+        </div>
+    </body>
+</html>
+

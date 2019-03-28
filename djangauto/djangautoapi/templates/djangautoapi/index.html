@@ -52,6 +52,15 @@
                 border-radius: 8px;
                 outline: none;
             }
+
+            #input-submit {
+                cursor: pointer;
+                transition: all .2s ease-in-out;
+            }
+
+            #input-submit:hover {
+                background: rgb(243, 235, 235);
+            }
         </style>    
     </head>
     <body>
@@ -72,17 +81,11 @@
             {% endif %}
         </section>
         <section class="new-car-brand">
-            <!-- <form action="">
-                <label for="brand-name"></label>
-                <input type="text" name="brand-name"><br>
-                <input type="submit" value="Submit">
-            </form> -->
-
             <h1>Ajouter une nouvelle marque de voiture</h1>
             <form action="{% url 'add_brand' %}" method="post">
                 {% csrf_token %}
                 <input type="text" name="brand_name" id="brand-name" value="" placeholder="Nom de la marque...">
-                <input type="submit" value="Ajouter">
+                <input id="input-submit" type="submit" value="Ajouter">
             </form>
         </section>    
     </body>
