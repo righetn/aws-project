@@ -54,7 +54,7 @@ def add_brand(request):
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")
     else:
-        return brand_detail(request, car.id)
+        return index(request)
 
 def add_model(request, car_id):
     try:
@@ -64,4 +64,4 @@ def add_model(request, car_id):
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")
     else:
-        return model_detail(request, car_id, carmodel.id)
+        return brand_detail(request, car.id)
