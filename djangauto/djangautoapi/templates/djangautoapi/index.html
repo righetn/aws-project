@@ -1,9 +1,74 @@
-{% if car_list %}
-    <ul>
-    {% for car in car_list %}
-        <li><a href="{% url 'brand_detail' car.id %}">{{ car.brand }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No cars are available.</p>
-{% endif %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Djangauto - Marques de voitures</title>
+        <style>
+            html {
+                height: 100%;
+                background: linear-gradient(#ffffff, #c7cbf7);
+                background-repeat: no-repeat;
+            }
+
+            h1 {
+                font-size: 35px;
+                color: rgb(216, 84, 84);
+            }
+
+            ul {
+                list-style-type: none;
+                font-size: 1.2em;
+            }
+
+            a {
+                text-decoration: none;
+                color: white;
+            }
+
+            .link {
+                display:inline-block;
+                transition: all .2s ease-in-out;
+                border: 1px solid #abb1f1;
+                padding: 10px;
+                margin-bottom: 10px;
+                background: rgb(102, 102, 185);
+            }
+
+            .link:hover {
+                transform: translateX(10px);
+            }
+        </style>    
+    </head>
+    <body>
+        <section class="car-brand-list">
+            <h1>Liste des marques de voitures</h1>
+            {% if car_list %}
+                <ul>
+                    {% for car in car_list %}
+                        <li>
+                            <div class="link">
+                                <a href="{% url 'brand_detail' car.id %}">{{ car.brand }}</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No cars are available.</p>
+            {% endif %}
+        </section>
+        <section class="new-car-brand">
+            <!-- <form action="">
+                <label for="brand-name"></label>
+                <input type="text" name="brand-name"><br>
+                <input type="submit" value="Submit">
+            </form> -->
+
+            <h1>Ajouter une nouvelle marque de voiture</h1>
+            <form action="{% url 'add_brand' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="brand_name" id="brand-name" value="" placeholder="Nom de la marque...">
+                <input type="submit" value="Ajouter">
+            </form>
+        </section>    
+    </body>
+</html>
+
