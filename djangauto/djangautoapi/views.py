@@ -20,4 +20,4 @@ def brand_detail(request, car_id):
     return render(request, 'djangautoapi/brand_detail.html', context)
 
 def model_detail(request, model_id):
-    return render(request, 'djangautoapo/model_detail.html', context)
+    return render(request, 'djangautoapi/model_detail.html', context)
