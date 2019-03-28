@@ -8,7 +8,6 @@ class Car(models.Model):
     def __str__(self):
         return self.brand.replace('_', ' ')
 
-
 class CarModel(models.Model):
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
     model_name = models.CharField(max_length=200)
