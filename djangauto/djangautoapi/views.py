@@ -29,16 +29,17 @@ def model_detail(request, car_id, model_id):
 
         model_name = carmodel['model_name']
         directory = '../../voitures' + brand + '/' + model_name + '/')
-        gis = GoogleImagesSearch('AIzaSyDL-iX9_5bYDWB5BHzXuMcV7xHt4_7X2JM', '003405953032685171249:uzag_hgt6fs')
-        gis.search({'q': brand + ' ' + model_name, 'num': 3})
-        for image in gis.results():
-            image.download(directory)
-            image.resize(500, 500)
-        for root, dirs, files in os.walk(diretory):
-            i = 0
-            for filename in files:
-                os.rename(directory + filename, directory + 'voiture' + i + '.jpg')
-                i += 1
+        if not os.path.exists(directory):
+            gis = GoogleImagesSearch('AIzaSyDL-iX9_5bYDWB5BHzXuMcV7xHt4_7X2JM', '003405953032685171249:uzag_hgt6fs')
+            gis.search({'q': brand + ' ' + model_name, 'num': 3})
+            for image in gis.results():
+                image.download(directory)
+                image.resize(500, 500)
+            for root, dirs, files in os.walk(diretory):
+                i = 0
+                for filename in files:
+                    os.rename(directory + filename, directory + 'voiture' + i + '.jpg')
+                    i += 1
 
         context = {'carmodel': carmodel, 'brand': brand}
     except CarModel.DoesNotExist:
