@@ -53,7 +53,7 @@ def add_brand(request):
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")
     else:
-        return redirect(car_id + "/")
+        return redirect(str(car.id) + "/")
 
 def add_model(request, car_id):
     try:
@@ -63,4 +63,4 @@ def add_model(request, car_id):
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")
     else:
-        return redirect(car_id + "/" + carmodel.id + "/")
+        return redirect(str(car_id) + "/" + str(carmodel.id) + "/")
