@@ -64,4 +64,4 @@ def add_model(request, brand):
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")
     else:
-        return brand_detail(request, car.id)
+        return brand_detail(request, brand)

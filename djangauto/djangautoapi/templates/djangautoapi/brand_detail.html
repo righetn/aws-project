@@ -82,7 +82,7 @@
         </section>
         <section class="new-car-brand">
             <h1>Ajouter un nouveau modèle de {{car.brand}}</h1>
-            <form action="{% url 'add_model' car.id %}" method="post">
+            <form action="{% url 'add_model' car.brand %}" method="post">
                 {% csrf_token %}
                 <input type="text" name="model_name" id="model-name" value="" placeholder="Nom du modèle...">
                 <input id="input-submit" type="submit" value="Ajouter">
