@@ -6,7 +6,7 @@ class Car(models.Model):
     creation_date = models.DateTimeField('creation date')
 
     def __str__(self):
-        return self.brand
+        return self.brand.replace('_', ' ')
 
 
 class CarModel(models.Model):
@@ -14,4 +14,4 @@ class CarModel(models.Model):
     model_name = models.CharField(max_length=200)
 
     def __str__(self):
-        return str(self.car) + " " + self.model_name
+        return str(self.car) + " " + self.model_name.replace('_', ' ')
