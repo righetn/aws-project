@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-import os
 
 from .models import Car
 from .models import CarModel
@@ -19,5 +18,11 @@ def brand_detail(request, car_id):
         raise Http404("Car does not exist")
     return render(request, 'djangautoapi/brand_detail.html', context)
 
-def model_detail(request, model_id):
+def model_detail(request, car_id, model_id):
+    try:
+        carmodel_list = CarModel.objects.filter(pk=model_id)
+        carmodel = carmodel_list[0]
+        context = {'carmodel': carmodel}
+    except CarModel.DoesNotExist:
+        raise Http404("CarModel does not exist")
     return render(request, 'djangautoapi/model_detail.html', context)
