@@ -1,9 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from datetime import datetime
+import os
 
 from .models import Car
 from .models import CarModel
+
+from google_images_search import GoogleImagesSearch
 
 def index(request):
     car_list = Car.objects.order_by('brand')
@@ -23,7 +26,23 @@ def model_detail(request, car_id, model_id):
     try:
         carmodel_list = CarModel.objects.filter(pk = model_id)
         carmodel = carmodel_list[0]
-        context = {'carmodel': carmodel}
+        brand = Car.objects.get(pk = car_id).brand
+
+        model_name = carmodel.model_name
+        directory = '../voitures/' + brand + '/' + model_name + '/'
+        if not os.path.exists(directory):
+            gis = GoogleImagesSearch('AIzaSyDL-iX9_5bYDWB5BHzXuMcV7xHt4_7X2JM', '003405953032685171249:uzag_hgt6fs')
+            gis.search({'q': brand + ' ' + model_name, 'num': 3})
+            for image in gis.results():
+                image.download(directory)
+                image.resize(500, 500)
+            for root, dirs, files in os.walk(directory):
+                i = 0
+                for filename in files:
+                    os.rename(directory + filename, directory + 'voiture' + str(i) + '.jpg')
+                    i += 1
+
+        context = {'carmodel': carmodel, 'brand': brand}
     except CarModel.DoesNotExist:
         raise Http404("CarModel does not exist")
     return render(request, 'djangautoapi/model_detail.html', context)
@@ -36,7 +55,7 @@ def add_brand(request):
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")
     else:
-        return brand_detail(request, car.id)
+        return index(request)
 
 def add_model(request, car_id):
     try:
@@ -47,4 +66,4 @@ def add_model(request, car_id):
     except (Car.DoesNotExist):
         raise Http404("Car does not exist")
     else:
-        return model_detail(request, car_id, carmodel.id)
+        return brand_detail(request, car.id)
