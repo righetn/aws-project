@@ -17,11 +17,11 @@ def index(request):
     context = {'car_brand_list': car_brand_list}
     return render(request, 'djangautoapi/index.html', context)
 
-def brand_detail(request, brand):
+def brand_detail(request, brand_id):
     try:
-        car = Car.objects.get(brand=brand)
-        carmodel_list = CarModel.objects.filter(car=car.id).order_by('model_name')
-        context = {'car': car, 'carmodel_list': carmodel_list}
+        car_model_list = CarModel.objects.filter(brand=brand_id).order_by('name')
+        car_brand = CarBrand.objects.get(id=brand_id)
+        context = {'car_brand':car_brand, 'car_model_list': car_model_list}
     except Car.DoesNotExist:
         raise Http404("Car does not exist")
     return render(request, 'djangautoapi/brand_detail.html', context)
