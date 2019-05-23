@@ -1,8 +1,17 @@
 <!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 <html>
     <head>
         <title>Djangauto - Marques de voitures</title>
-        <style>
+        <!-- <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
             html {
@@ -16,16 +25,16 @@
                 font-size: 40px;
                 color: rgb(216, 84, 84);
             }
-        </style>    
+        </style>     -->
     </head>
     <body>
-        <h1>Détails de la {{ carmodel }}</h1>
+        <h1>Détails de la {{ car_model }}</h1>
         <div class="grid-wrapper">
             <div class="img">
                 {% load static %}
-                <img src="{% static "" %}voitures/{{ brand }}/{{ carmodel.model_name }}/voiture0.jpg" alt="img1">
-                <img src="{% static "" %}voitures/{{ brand }}/{{ carmodel.model_name }}/voiture1.jpg" alt="img2">
-                <img src="{% static "" %}voitures/{{ brand }}/{{ carmodel.model_name }}/voiture2.jpg" alt="img3">
+                <img src="{% static "" %}voitures/{{ brand }}/{{ car_model.name }}/voiture0.jpg" alt="img1">
+                <img src="{% static "" %}voitures/{{ brand }}/{{ car_model.name }}/voiture1.jpg" alt="img2">
+                <img src="{% static "" %}voitures/{{ brand }}/{{ car_model.name }}/voiture2.jpg" alt="img3">
             </div>
         </div>
     </body>

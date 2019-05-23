@@ -1,8 +1,17 @@
 <!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 <html>
     <head>
         <title>Djangauto - Modèles de {{car.brand}}</title>
-        <style>
+        <!-- <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
             html {
@@ -61,17 +70,17 @@
             #input-submit:hover {
                 background: rgb(243, 235, 235);
             }
-        </style>    
+        </style>     -->
     </head>
     <body>
         <section class="car-brand-list">
-            <h1>Liste des modèles de {{car_brand}}</h1>
+            <h1>Liste des modèles de {{brand_name}}</h1>
             {% if car_model_list %}
                 <ul>
                 {% for car_model in car_model_list %}
                     <li>
                         <div class="link">
-                            <a href="{% url 'model_detail' car.brand carmodel.model_name %}">{{ carmodel }}</a>
+                            <a href="{% url 'model_detail' brand_name car_model.name %}">{{ car_model }}</a>
                         </div>
                     </li>
                 {% endfor %}
@@ -81,11 +90,29 @@
             {% endif %}
         </section>
         <section class="new-car-brand">
-            <h1>Ajouter un nouveau modèle de {{car_brand}}</h1>
-            <form action="{% url 'add_model' car_brand %}" method="post">
+            <h1>Ajouter un nouveau modèle de {{brand_name}}</h1>
+            <form action="{% url 'brand_detail' brand_name %}" method="post">
                 {% csrf_token %}
-                <input type="text" name="model_name" id="model-name" value="" placeholder="Nom du modèle...">
-                <input id="input-submit" type="submit" value="Ajouter">
+                {% bootstrap_form form %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">
+                    Ajouter
+                    </button>
+                {% endbuttons %}
+                {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
             </form>
         </section>    
     </body>

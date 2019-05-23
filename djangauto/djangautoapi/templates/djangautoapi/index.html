@@ -1,8 +1,17 @@
 <!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
 <html>
     <head>
         <title>Djangauto - Marques de voitures</title>
-        <style>
+        <!-- <style>
             @import url('https://fonts.googleapis.com/css?family=Montserrat');
 
             html {
@@ -61,7 +70,7 @@
             #input-submit:hover {
                 background: rgb(243, 235, 235);
             }
-        </style>    
+        </style>-->
     </head>
     <body>
         <section class="car-brand-list">
@@ -71,7 +80,7 @@
                     {% for car_brand in car_brand_list %}
                         <li>
                             <div class="link">
-                                <a href="{% url 'brand_detail' car_brand.id %}">{{ car_brand }}</a>
+                                <a href="{% url 'brand_detail' car_brand.name %}">{{ car_brand }}</a>
                             </div>
                         </li>
                     {% endfor %}
@@ -82,10 +91,14 @@
         </section>
         <section class="new-car-brand">
             <h1>Ajouter une nouvelle marque de voiture</h1>
-            <form action="{% url 'add_brand' %}" method="post">
+            <form action="{% url 'Cars' %}" method="post" class="form">
                 {% csrf_token %}
-                <input type="text" name="brand_name" id="brand-name" value="" placeholder="Nom de la marque...">
-                <input id="input-submit" type="submit" value="Ajouter">
+                {% bootstrap_form form %}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">
+                    Ajouter
+                    </button>
+                {% endbuttons %}
             </form>
         </section>    
     </body>
