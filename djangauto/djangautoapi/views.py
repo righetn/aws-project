@@ -1,22 +1,26 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from datetime import datetime
+""" views """
 import os
 
-from .models import Car
-from .models import CarModel
+from datetime import datetime
+
+from django.http import Http404
+from django.shortcuts import render
 
 from google_images_search import GoogleImagesSearch
 
+from .models import Car
+from .models import CarModel
+from .models import CarBrand
+
 def index(request):
-    car_list = Car.objects.order_by('brand')
-    context = {'car_list': car_list}
+    car_brand_list = CarBrand.objects.order_by('name')
+    context = {'car_brand_list': car_brand_list}
     return render(request, 'djangautoapi/index.html', context)
 
 def brand_detail(request, brand):
     try:
-        car = Car.objects.get(brand = brand)
-        carmodel_list = CarModel.objects.filter(car = car.id).order_by('model_name')
+        car = Car.objects.get(brand=brand)
+        carmodel_list = CarModel.objects.filter(car=car.id).order_by('model_name')
         context = {'car': car, 'carmodel_list': carmodel_list}
     except Car.DoesNotExist:
         raise Http404("Car does not exist")
@@ -49,21 +53,23 @@ def add_brand(request):
     try:
         brand_name = request.POST['brand_name']
         brand_name = brand_name.replace(' ', '_')
-        car = Car(brand = brand_name, creation_date = datetime.now())
-        car.save()
-    except (Car.DoesNotExist):
+        if CarBrand.objects.filter(name=brand_name) is not None:
+            return index(request)
+        car_brand = CarBrand(name=brand_name)
+        car_brand.save()
+    except Car.DoesNotExist:
         raise Http404("Car does not exist")
     else:
         return index(request)
 
-def add_model(request, brand):
+def add_model(request, brand_name):
     try:
         model_name = request.POST['model_name']
         model_name = model_name.replace(' ', '_')
-        car = Car.objects.get(brand = brand)
-        carmodel = CarModel(car = car, model_name = model_name)
-        carmodel.save()
-    except (Car.DoesNotExist):
+        car_brand = CarBrand.objects.get(name=brand_name)
+        car_model = CarModel(brand=car_brand, model_name=model_name)
+        car_model.save()
+    except Car.DoesNotExist:
         raise Http404("Car does not exist")
     else:
-        return brand_detail(request, brand)
+        return brand_detail(request, brand_name)
