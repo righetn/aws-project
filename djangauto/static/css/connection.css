@@ -1,0 +1,39 @@
+.form {
+    text-align: left;
+    display: inline-block;
+}
+
+.form-control {
+    width: 300px;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+body {
+    background-color: #FFF1CC;
+}
+
+h1 {
+    color: #806F40;
+}
+
+.btn {
+    color: #806F40;
+    background-color: white;
+    border-color: #806F40;
+}
+
+.form_container {
+    display: inline-block;
+}
+
+label {
+    display: none;
+}

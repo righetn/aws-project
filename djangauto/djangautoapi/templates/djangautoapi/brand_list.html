@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {# Load the tag library #}
 {% load bootstrap4 %}
+{% load static %}
 
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
@@ -11,96 +12,35 @@
 <html>
     <head>
         <title>Djangauto - Marques de voitures</title>
-        <!-- <style>
-            @import url('https://fonts.googleapis.com/css?family=Montserrat');
-
-            html {
-                height: 100%;
-                background: linear-gradient(#ffffff, #c7cbf7);
-                background-repeat: no-repeat;
-                font-family: 'Montserrat', sans-serif;
-            }
-
-            h1 {
-                font-size: 40px;
-                color: rgb(216, 84, 84);
-            }
-
-            ul {
-                list-style-type: none;
-                font-size: 1.5em;
-            }
-
-            a {
-                text-decoration: none;
-                color: white;
-            }
-
-            .link {
-                display:inline-block;
-                transition: all .2s ease-in-out;
-                border: 1px solid #abb1f1;
-                padding: 10px;
-                margin-bottom: 10px;
-                background: rgb(102, 102, 185);
-                min-width: 150px;
-                text-align: center;
-                border-radius: 8px;
-            }
-
-            .link:hover {
-                transform: translateX(10px);
-                background: rgb(115, 115, 189);
-            }
-
-            input {
-                font-size: 1.5em;
-                padding: 10px;
-                border: none;
-                border: 1px solid #c7cbf7;
-                border-radius: 8px;
-                outline: none;
-            }
-
-            #input-submit {
-                cursor: pointer;
-                transition: all .2s ease-in-out;
-            }
-
-            #input-submit:hover {
-                background: rgb(243, 235, 235);
-            }
-        </style>-->
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?date">
     </head>
     <body>
-        <section class="car-brand-list">
-            <h1>Liste des marques de voitures</h1>
-            {% if car_brand_list %}
-                <ul>
-                    {% for car_brand in car_brand_list %}
-                        <li>
-                            <div class="link">
-                                <a href="{% url 'brand_detail' car_brand.name %}">{{ car_brand }}</a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No cars are available.</p>
-            {% endif %}
-        </section>
-        <section class="new-car-brand">
-            <h1>Ajouter une nouvelle marque de voiture</h1>
-            <form action="{% url 'Cars' %}" method="post" class="form">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                {% buttons %}
-                    <button type="submit" class="btn btn-primary">
-                    Ajouter
-                    </button>
-                {% endbuttons %}
-            </form>
-        </section>    
+        <div class="center">
+            <section class="car-brand-list">
+                <h1>Liste des marques de voitures</h1>
+                {% if car_brand_list %}
+                    <ul>
+                        {% for car_brand in car_brand_list %}
+                            <li>
+                                <div class="link">
+                                    <a href="{% url 'brand_detail' car_brand.name %}">{{ car_brand }}</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No cars are available.</p>
+                {% endif %}
+            </section>
+            <section class="new-car-brand">
+                <h1>Ajouter une nouvelle marque de voiture</h1>
+                <form action="{% url 'brand_list' %}" method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons submit='Add brand' %}{% endbuttons %}
+                </form>
+            </section>
+        </div>
     </body>
 </html>
 

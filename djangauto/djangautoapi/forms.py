@@ -18,10 +18,10 @@ class AddModelForm(forms.Form):
     )
 
 class RegistrationForm(forms.Form):
-    username = forms.CharField(label='Username', max_length=20)
+    username = forms.CharField(label='Username', max_length=30)
     email = forms.CharField(label='Email', max_length=100)
-    password = forms.CharField(label='Password')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput())
 
 class ConnectionForm(forms.Form):
-    email = forms.CharField(label='Email', max_length=100)
-    password = forms.CharField(label='Password')
+    username = forms.CharField(label='Username', max_length=100)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput())

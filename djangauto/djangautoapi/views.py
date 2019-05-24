@@ -4,7 +4,7 @@ import os
 from datetime import datetime
 
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -24,19 +24,21 @@ def connection(request):
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
+            print(user)
             if user is not None:
                 car_brand_list = CarBrand.objects.order_by('name')
                 context = {'car_brand_list': car_brand_list, 'form': AddBrandForm()}
-                return render(request, 'djangautoapi/brand_list.html', context)
+                return redirect('brand_list')
             else:
                 return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
             
     return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
 
-def register(request):
+def registration(request):
     if request.method == 'POST':
-        form = ConnectionForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             user = User.objects.create_user(
                 form.cleaned_data['username'],
                 form.cleaned_data['email'],
@@ -45,7 +47,7 @@ def register(request):
             user.save()
             return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
 
-    return render(request, 'djangautoapi/register.html', context={'form': RegistrationForm()})
+    return render(request, 'djangautoapi/registration.html', context={'form': RegistrationForm()})
 
 def brand_list(request):
     if request.method == 'POST':

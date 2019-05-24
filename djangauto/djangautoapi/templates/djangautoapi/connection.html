@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {# Load the tag library #}
 {% load bootstrap4 %}
+{% load static %}
 
 {# Load CSS and JavaScript #}
 {% bootstrap_css %}
@@ -11,28 +12,26 @@
 <html>
     <head>
         <title>Djangauto - Connection</title>
+        {% now "U" as date %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?date">
     </head>
     <body>
-        <section class="connection">
-            <h1>Connection</h1>
-            <form action="{% url 'connection' %}" method="post" class="form">
-                {% csrf_token %}
-                {% bootstrap_form form %}
-                {% buttons %}
-                    <button type="submit" class="btn btn-primary">
-                    Connect
-                    </button>
-                {% endbuttons %}
-            </form>
-            <form action="{% url 'registration' %}" method="post" class="form">
-                {% csrf_token %}
-                {% buttons %}
-                    <button type="submit" class="btn btn-primary">
-                    Register
-                    </button>
-                {% endbuttons %}
-            </form>
-        </section>    
+        <div class="center">
+            <section class="connection"></section>
+                <h1>Connection</h1>
+                <form action="{% url 'connection' %}" method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form layout="inline" %}
+                    <div style="display: inline-block">
+                        {% buttons submit="Connect" %}{% endbuttons %}
+                    </div>
+                    <div style="display: inline-block;">
+                        {% url 'registration' as registration_url %}
+                        {% bootstrap_button "Register" button_type="link" href=registration_url button_class="btn-primary" %}
+                    </div>
+                </form>
+            </section> 
+        </div>
     </body>
 </html>
 
