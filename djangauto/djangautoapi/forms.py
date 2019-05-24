@@ -16,3 +16,12 @@ class AddModelForm(forms.Form):
             MaxValueValidator(datetime.now().year)],
         help_text="Use the following format: YYYY"
     )
+
+class RegistrationForm(forms.Form):
+    username = forms.CharField(label='Username', max_length=20)
+    email = forms.CharField(label='Email', max_length=100)
+    password = forms.CharField(label='Password')
+
+class ConnectionForm(forms.Form):
+    email = forms.CharField(label='Email', max_length=100)
+    password = forms.CharField(label='Password')

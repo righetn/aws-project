@@ -5,6 +5,8 @@ from datetime import datetime
 
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
 from google_images_search import GoogleImagesSearch
 
@@ -12,21 +14,48 @@ from .models import Car
 from .models import CarModel
 from .models import CarBrand
 
-from .forms import AddBrandForm, AddModelForm
+from .forms import AddBrandForm, AddModelForm, ConnectionForm, RegistrationForm
 
-def index(request):
+def connection(request):
     if request.method == 'POST':
-        print('pass')
+        form = ConnectionForm(request.POST)
+        if form.is_valid():
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password']
+            )
+            if user is not None:
+                car_brand_list = CarBrand.objects.order_by('name')
+                context = {'car_brand_list': car_brand_list, 'form': AddBrandForm()}
+                return render(request, 'djangautoapi/brand_list.html', context)
+            else:
+                return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+            
+    return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+
+def register(request):
+    if request.method == 'POST':
+        form = ConnectionForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+                form.cleaned_data['username'],
+                form.cleaned_data['email'],
+                form.cleaned_data['password']
+            )
+            user.save()
+            return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+
+    return render(request, 'djangautoapi/register.html', context={'form': RegistrationForm()})
+
+def brand_list(request):
+    if request.method == 'POST':
         form = AddBrandForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
             brand_name = form.cleaned_data['brand_name']
-            print(brand_name)
             brand_name = brand_name.replace(' ', '_')
             try:
                 CarBrand.objects.get(name=brand_name)
             except CarBrand.DoesNotExist:
-                print('inserted')
                 car_brand = CarBrand(name=brand_name)
                 car_brand.save()
             return HttpResponseRedirect('/')
@@ -34,7 +63,7 @@ def index(request):
         car_brand_list = CarBrand.objects.order_by('name')
         print(len(car_brand_list))
         context = {'car_brand_list': car_brand_list, 'form': AddBrandForm()}
-        return render(request, 'djangautoapi/index.html', context)
+        return render(request, 'djangautoapi/brand_list.html', context)
 
 def brand_detail(request, brand_name):
     if request.method == 'POST':
@@ -44,16 +73,13 @@ def brand_detail(request, brand_name):
             model_name = model_name.replace(' ', '_')
             production_year = form.cleaned_data['production_year']
             print(production_year)
+            car_brand = CarBrand.objects.get(name=brand_name)
             try:
-                car_brand = CarBrand.objects.get(name=brand_name)
-            except CarBrand.DoesNotExist:
-                raise Http404("Car brand does not exist")
-            if not CarModel.objects.filter(name=model_name, production_year=production_year):
+                CarModel.objects.get(name=model_name, production_year=production_year)
+            except CarModel.DoesNotExist:
                 car_model = CarModel(brand=car_brand, name=model_name, production_year=production_year)
                 car_model.save()
             return HttpResponseRedirect('/brand-' + brand_name + '/')
-        else:
-            print('form is not valid')
     try:
         car_brand = CarBrand.objects.get(name=brand_name)
         car_model_list = CarModel.objects.filter(brand=car_brand.id).order_by('name')
