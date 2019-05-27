@@ -71,11 +71,19 @@ def brand_detail(request, brand_name):
     if request.method == 'POST':
         form = AddModelForm(request.POST)
         if form.is_valid():
+            brand_name = form.cleaned_data['brand_name']
             model_name = form.cleaned_data['model_name']
             model_name = model_name.replace(' ', '_')
             production_year = form.cleaned_data['production_year']
-            print(production_year)
-            car_brand = CarBrand.objects.get(name=brand_name)
+
+            # insert brand
+            try:
+                car_brand = CarBrand.objects.get(name=brand_name)
+            except CarBrand.DoesNotExist:
+                car_brand = CarBrand(name=brand_name)
+                car_brand.save()
+
+            # insert model
             try:
                 CarModel.objects.get(name=model_name, production_year=production_year)
             except CarModel.DoesNotExist:

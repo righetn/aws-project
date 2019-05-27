@@ -32,14 +32,6 @@
                     <p>No cars are available.</p>
                 {% endif %}
             </section>
-            <section class="new-car-brand">
-                <h1>Ajouter une nouvelle marque de voiture</h1>
-                <form action="{% url 'brand_list' %}" method="post" class="form">
-                    {% csrf_token %}
-                    {% bootstrap_form form %}
-                    {% buttons submit='Add brand' %}{% endbuttons %}
-                </form>
-            </section>
         </div>
     </body>
 </html>
