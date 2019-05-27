@@ -26,8 +26,8 @@ def connection(request):
             )
             print(user)
             if user is not None:
-                car_brand_list = CarBrand.objects.order_by('name')
-                context = {'car_brand_list': car_brand_list, 'form': AddBrandForm()}
+                # car_brand_list = CarBrand.objects.order_by('name')
+                # context = {'car_brand_list': car_brand_list, 'form': AddBrandForm()}
                 return redirect('brand_list')
             else:
                 return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
@@ -60,7 +60,7 @@ def brand_list(request):
             except CarBrand.DoesNotExist:
                 car_brand = CarBrand(name=brand_name)
                 car_brand.save()
-            return HttpResponseRedirect('/')
+            return redirect('brand_list')
     else:
         car_brand_list = CarBrand.objects.order_by('name')
         print(len(car_brand_list))
@@ -81,7 +81,7 @@ def brand_detail(request, brand_name):
             except CarModel.DoesNotExist:
                 car_model = CarModel(brand=car_brand, name=model_name, production_year=production_year)
                 car_model.save()
-            return HttpResponseRedirect('/brand-' + brand_name + '/')
+            return redirect('brand_detail', brand_name=brand_name)
     try:
         car_brand = CarBrand.objects.get(name=brand_name)
         car_model_list = CarModel.objects.filter(brand=car_brand.id).order_by('name')
