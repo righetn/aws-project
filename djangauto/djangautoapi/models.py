@@ -21,7 +21,7 @@ class CarModel(models.Model):
     stock = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.name.__str__().replace('_', ' ')
+        return self.brand.__str__().replace('_', ' ') + ' ' + self.name.__str__().replace('_', ' ') + ' ' + self.production_year.__str__()
 
 class Car(models.Model):
     model = models.ForeignKey(CarModel, on_delete=models.CASCADE)

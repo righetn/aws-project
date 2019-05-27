@@ -26,9 +26,7 @@ def connection(request):
             )
             print(user)
             if user is not None:
-                # car_brand_list = CarBrand.objects.order_by('name')
-                # context = {'car_brand_list': car_brand_list, 'form': AddBrandForm()}
-                return redirect('brand_list')
+                return redirect('model_list')
             else:
                 return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
             
@@ -49,25 +47,12 @@ def registration(request):
 
     return render(request, 'djangautoapi/registration.html', context={'form': RegistrationForm()})
 
-def brand_list(request):
-    if request.method == 'POST':
-        form = AddBrandForm(request.POST)
-        if form.is_valid():
-            brand_name = form.cleaned_data['brand_name']
-            brand_name = brand_name.replace(' ', '_')
-            try:
-                CarBrand.objects.get(name=brand_name)
-            except CarBrand.DoesNotExist:
-                car_brand = CarBrand(name=brand_name)
-                car_brand.save()
-            return redirect('brand_list')
-    else:
-        car_brand_list = CarBrand.objects.order_by('name')
-        print(len(car_brand_list))
-        context = {'car_brand_list': car_brand_list, 'form': AddBrandForm()}
-        return render(request, 'djangautoapi/brand_list.html', context)
+def model_list(request):
+    car_model_list = CarModel.objects.order_by('brand__name')
+    context = {'car_model_list': car_model_list, 'form': AddBrandForm()}
+    return render(request, 'djangautoapi/model_list.html', context)
 
-def brand_detail(request, brand_name):
+def add_model(request):
     if request.method == 'POST':
         form = AddModelForm(request.POST)
         if form.is_valid():
@@ -89,18 +74,14 @@ def brand_detail(request, brand_name):
             except CarModel.DoesNotExist:
                 car_model = CarModel(brand=car_brand, name=model_name, production_year=production_year)
                 car_model.save()
-            return redirect('brand_detail', brand_name=brand_name)
+            return redirect('model_list')
     try:
-        car_brand = CarBrand.objects.get(name=brand_name)
-        car_model_list = CarModel.objects.filter(brand=car_brand.id).order_by('name')
         context = {
-            'brand_name': brand_name,
-            'car_model_list': car_model_list,
             'form': AddModelForm()
         }
     except CarBrand.DoesNotExist:
         raise Http404("Car brand does not exist")
-    return render(request, 'djangautoapi/brand_detail.html', context)
+    return render(request, 'djangautoapi/add_model.html', context)
 
 def model_detail(request, brand_name, model_name):
     try:

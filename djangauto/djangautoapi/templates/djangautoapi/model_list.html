@@ -11,19 +11,19 @@
 {% bootstrap_messages %}
 <html>
     <head>
-        <title>Djangauto - Marques de voitures</title>
+        <title>Djangauto - Models de voitures</title>
         <link rel="stylesheet" href="{% static 'css/style.css' %}?date">
     </head>
     <body>
         <div class="center">
-            <section class="car-brand-list">
-                <h1>Liste des marques de voitures</h1>
-                {% if car_brand_list %}
+            <section class="car-model-list">
+                <h1>Liste des models de voitures</h1>
+                {% if car_model_list %}
                     <ul>
-                        {% for car_brand in car_brand_list %}
+                        {% for car_model in car_model_list %}
                             <li>
                                 <div class="link">
-                                    <a href="{% url 'brand_detail' car_brand.name %}">{{ car_brand }}</a>
+                                    <a href="{% url 'model_detail' car_model.name car_model.name %}">{{ car_model }}</a>
                                 </div>
                             </li>
                         {% endfor %}
@@ -31,6 +31,8 @@
                 {% else %}
                     <p>No cars are available.</p>
                 {% endif %}
+                {% url 'add_model' as add_model_url %}
+                {% bootstrap_button "Add a Model" button_type="link" href=add_model_url button_class="btn-primary" %}
             </section>
         </div>
     </body>

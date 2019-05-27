@@ -16,25 +16,9 @@
     </head>
     <body>
         <div class="center">
-            <section class="car-brand-list">
-                <h1>Liste des modèles de {{brand_name}}</h1>
-                {% if car_model_list %}
-                    <ul>
-                    {% for car_model in car_model_list %}
-                        <li>
-                            <div class="link">
-                                <a href="{% url 'model_detail' brand_name car_model.name %}">{{ car_model }}</a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No cars are available.</p>
-                {% endif %}
-            </section>
             <section class="new-car-brand">
                 <h1>Ajouter un nouveau modèle de {{brand_name}}</h1>
-                <form action="{% url 'brand_detail' brand_name %}" method="post">
+                <form action="{% url 'add_model' %}" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
                     {% buttons submit='Add model' %}{% endbuttons %}
