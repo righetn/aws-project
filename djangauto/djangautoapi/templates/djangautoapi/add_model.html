@@ -12,7 +12,7 @@
 <html>
     <head>
         <title>Djangauto - Modèles de {{car.brand}}</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
     </head>
     <body>
         <div class="center">
@@ -21,7 +21,6 @@
                 <form action="{% url 'add_model' %}" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
-                    {% buttons submit='Add model' %}{% endbuttons %}
                     {% if form.errors %}
                         {% for field in form %}
                             {% for error in field.errors %}
@@ -36,6 +35,7 @@
                             </div>
                         {% endfor %}
                     {% endif %}
+                    {% buttons submit='Add model' %}{% endbuttons %}
                 </form>
             </section>
         </div>

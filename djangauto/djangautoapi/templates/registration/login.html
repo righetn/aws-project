@@ -12,23 +12,26 @@
 <html>
     <head>
         <title>Djangauto - Connection</title>
-        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
+        {% now "U" as date %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?date">
     </head>
     <body>
         <div class="center">
             <section class="connection"></section>
-                <h1>Connection</h1>
+                <h1>Login</h1>
                 <form action="{% url 'connection' %}" method="post" class="form">
                     {% csrf_token %}
-                    {% bootstrap_form form layout="inline" %}
-                    <div style="display: inline-block">
+                    {% bootstrap_form form %}
+                    <div class="form-button">
                         {% buttons submit="Connect" %}{% endbuttons %}
                     </div>
-                    <div style="display: inline-block;">
-                        {% url 'registration' as registration_url %}
-                        {% bootstrap_button "Register" button_type="link" href=registration_url button_class="btn-primary" %}
-                    </div>
+                    <input type="hidden" name="next" value="{{ next }}">
                 </form>
+                <div class="form-button">
+                    {% url 'registration' as registration_url %}
+                    {% bootstrap_button "Register" button_type="link" href=registration_url button_class="btn-primary" %}
+                </div>
+                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
             </section> 
         </div>
     </body>

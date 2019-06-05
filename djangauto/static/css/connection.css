@@ -37,3 +37,8 @@ h1 {
 label {
     display: none;
 }
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+}

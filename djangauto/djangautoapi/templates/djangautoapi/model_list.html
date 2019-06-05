@@ -12,22 +12,21 @@
 <html>
     <head>
         <title>Djangauto - Models de voitures</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}?date">
+        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
     </head>
     <body>
         <div class="center">
             <section class="car-model-list">
                 <h1>Liste des models de voitures</h1>
                 {% if car_model_list %}
-                    <ul>
-                        {% for car_model in car_model_list %}
-                            <li>
-                                <div class="link">
-                                    <a href="{% url 'model_detail' car_model.name car_model.name %}">{{ car_model }}</a>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                    {% for car_model in car_model_list %}
+                        <hr>
+                        <div class="list-item">
+                            <a href="{% url 'model_detail' car_model.name car_model.name %}">{{ car_model }}</a>
+                            <p>{{ car_model.price }} &euro;</p>
+                        </div>
+                    {% endfor %}
+                    <hr>
                 {% else %}
                     <p>No cars are available.</p>
                 {% endif %}

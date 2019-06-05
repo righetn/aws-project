@@ -16,7 +16,12 @@ class AddModelForm(forms.Form):
         validators=[
             MinValueValidator(1900),
             MaxValueValidator(datetime.now().year)],
-        help_text="Use the following format: YYYY"
+        help_text="Use the following format: YYYY",
+        required=True
+    )
+    price = forms.IntegerField(label='Price €',
+        validators=[MinValueValidator(0)],
+        required=True
     )
 
     def __init__(self, *args, **kwargs):

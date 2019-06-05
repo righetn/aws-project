@@ -75,13 +75,11 @@ def add_model(request):
                 car_model = CarModel(brand=car_brand, name=model_name, production_year=production_year)
                 car_model.save()
             return redirect('model_list')
-    try:
-        context = {
-            'form': AddModelForm()
-        }
-    except CarBrand.DoesNotExist:
-        raise Http404("Car brand does not exist")
-    return render(request, 'djangautoapi/add_model.html', context)
+        else:
+            print('form error')
+            render(request, 'djangautoapi/add_model.html', context={'form': form})
+
+    return render(request, 'djangautoapi/add_model.html', context={'form': AddModelForm()})
 
 def model_detail(request, brand_name, model_name):
     try:
