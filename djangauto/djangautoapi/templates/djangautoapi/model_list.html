@@ -22,7 +22,7 @@
                     {% for car_model in car_model_list %}
                         <hr>
                         <div class="list-item">
-                            <a href="{% url 'model_detail' car_model.name car_model.name %}">{{ car_model }}</a>
+                            <a href="{% url 'model_detail' car_model.pk %}">{{ car_model }}</a>
                             <p>{{ car_model.price }} &euro;</p>
                         </div>
                     {% endfor %}

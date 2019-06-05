@@ -10,19 +10,20 @@
 
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
+
+{% load cloudinary %}
 <html>
     <head>
         <title>Djangauto - Marques de voitures</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}?date">
+        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
     </head>
     <body>
-        <h1>Détails de la {{ car_model }}</h1>
+        <h1>Détails</h1>
         <div class="grid-wrapper">
             <div class="img">
-                {% load static %}
-                <img src="{% static "" %}voitures/{{ brand }}/{{ car_model.name }}/voiture0.jpg" alt="img1">
-                <img src="{% static "" %}voitures/{{ brand }}/{{ car_model.name }}/voiture1.jpg" alt="img2">
-                <img src="{% static "" %}voitures/{{ brand }}/{{ car_model.name }}/voiture2.jpg" alt="img3">
+                {% for image in images %}
+                    {% cloudinary image.name width=100 height=100 crop="fill" %}
+                {% endfor %}
             </div>
         </div>
     </body>

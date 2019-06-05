@@ -29,3 +29,7 @@ class Car(models.Model):
 
     def __str__(self):
         return self.brand.__str__() + " " + self.model.__str__()
+
+class CarModelImage(models.Model):
+    model = models.ForeignKey(CarModel, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, unique=True)
