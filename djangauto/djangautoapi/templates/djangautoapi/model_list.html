@@ -9,6 +9,8 @@
 
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
+
+{% load cloudinary %}
 <html>
     <head>
         <title>Djangauto - Models de voitures</title>
@@ -18,12 +20,17 @@
         <div class="center">
             <section class="car-model-list">
                 <h1>Liste des models de voitures</h1>
-                {% if car_model_list %}
-                    {% for car_model in car_model_list %}
+                {% if image_model_list %}
+                    {% for image_model in image_model_list %}
                         <hr>
                         <div class="list-item">
-                            <a href="{% url 'model_detail' car_model.pk %}">{{ car_model }}</a>
-                            <p>{{ car_model.price }} &euro;</p>
+                            <a href="{% url 'model_detail' image_model.car_model.pk %}">{{ image_model.car_model }}</a>
+                            <p>{{ image_model.car_model.price }} &euro;</p>
+                        </div>
+                        <div>
+                            {% for image in image_model.image_list %}
+                                {% cloudinary image.name width=50 height=50 crop="fill" %}
+                            {% endfor %}
                         </div>
                     {% endfor %}
                     <hr>

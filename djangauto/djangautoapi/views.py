@@ -50,7 +50,17 @@ def registration(request):
 
 def model_list(request):
     car_model_list = CarModel.objects.order_by('brand__name')
-    context = {'car_model_list': car_model_list, 'form': AddBrandForm()}
+    image_model_list = []
+    for car_model in car_model_list:
+        image_model_list.append({
+            'car_model': car_model,
+            'image_list': CarModelImage.objects.filter(model=car_model)
+        })
+    context = {
+        'image_model_list': image_model_list,
+        'form': AddBrandForm(),
+        }
+    print(image_model_list[0]['image_list'])
     return render(request, 'djangautoapi/model_list.html', context)
 
 def add_model(request):
