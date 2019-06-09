@@ -14,26 +14,26 @@ from .models import Car, CarModel, CarBrand, CarModelImage
 
 from .forms import AddBrandForm, AddModelForm, ConnectionForm, RegistrationForm
 
-def connection(request):
-    if request.method == 'POST':
-        form = ConnectionForm(request.POST)
-        if form.is_valid():
-            user = authenticate(
-                request,
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password']
-            )
-            if user is not None:
-                login(request, user)
-                return redirect('model_list')
-            else:
-                return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+# def connection(request):
+#     if request.method == 'POST':
+#         form = ConnectionForm(request.POST)
+#         if form.is_valid():
+#             user = authenticate(
+#                 request,
+#                 username=form.cleaned_data['username'],
+#                 password=form.cleaned_data['password']
+#             )
+#             if user is not None:
+#                 login(request, user)
+#                 return redirect('model_list')
+#             else:
+#                 return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
             
-    return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+#     return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
 
-def deconnection(request):
-    logout(request)
-    return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+# def deconnection(request):
+#     logout(request)
+#     return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
 
 
 def registration(request):

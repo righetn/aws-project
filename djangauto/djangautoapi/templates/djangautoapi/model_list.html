@@ -11,14 +11,19 @@
 {% bootstrap_messages %}
 
 {% load cloudinary %}
+{% load staticfiles %}
 <html>
     <head>
         <title>Djangauto - Models de voitures</title>
-        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}">
+        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
     </head>
     <body>
-        <div class="center-list">
-            <section class="car-model-list">
+        <section>
+            <div class="logout">
+                {% url 'deconnection' as deconnection_url %}
+                {% bootstrap_button "Logout" button_type="link" href=deconnection_url button_class="btn-primary" %}
+            </div>
+            <div class="list-page">
                 <h1>Liste des models de voitures</h1>
                 {% url 'add_model' as add_model_url %}
                 {% bootstrap_button "Add a Model" button_type="link" href=add_model_url button_class="btn-primary" %}
@@ -44,8 +49,8 @@
                 {% else %}
                     <p>No cars are available.</p>
                 {% endif %}
-            </section>
-        </div>
+            </div>
+        </section>
     </body>
 </html>
 

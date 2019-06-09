@@ -15,8 +15,8 @@
         <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
     </head>
     <body>
-        <div class="center">
-            <section class="connection"></section>
+        <section class="connection">
+            <div class="center">
                 <h1>Connection</h1>
                 <form action="{% url 'connection' %}" method="post" class="form">
                     {% csrf_token %}
@@ -29,8 +29,8 @@
                         {% bootstrap_button "Register" button_type="link" href=registration_url button_class="btn-primary" %}
                     </div>
                 </form>
-            </section> 
-        </div>
+            </div>
+        </section> 
     </body>
 </html>
 
