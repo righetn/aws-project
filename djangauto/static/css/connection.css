@@ -14,7 +14,11 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-  }
+}
+
+.center-list {
+    margin: 100px;
+}
 
 body {
     background-color: #FFF1CC;

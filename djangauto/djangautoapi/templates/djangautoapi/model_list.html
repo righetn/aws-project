@@ -14,31 +14,36 @@
 <html>
     <head>
         <title>Djangauto - Models de voitures</title>
-        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
+        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}">
     </head>
     <body>
-        <div class="center">
+        <div class="center-list">
             <section class="car-model-list">
                 <h1>Liste des models de voitures</h1>
+                {% url 'add_model' as add_model_url %}
+                {% bootstrap_button "Add a Model" button_type="link" href=add_model_url button_class="btn-primary" %}
                 {% if image_model_list %}
                     {% for image_model in image_model_list %}
-                        <hr>
-                        <div class="list-item">
-                            <a href="{% url 'model_detail' image_model.car_model.pk %}">{{ image_model.car_model }}</a>
-                            <p>{{ image_model.car_model.price }} &euro;</p>
-                        </div>
                         <div>
-                            {% for image in image_model.image_list %}
-                                {% cloudinary image.name width=50 height=50 crop="fill" %}
-                            {% endfor %}
+                            <hr>
+                            <div class="list-item">
+                                <a href="{% url 'model_detail' image_model.car_model.pk %}">{{ image_model.car_model }}</a>
+                                <p>{{ image_model.car_model.price }} &euro;</p>
+                                <div>
+                                    {% bootstrap_button "" button_type="submit" button_class="btn-primary fas fa-trash-alt" %}
+                                </div>
+                            </div>
+                            <div>
+                                {% for image in image_model.image_list %}
+                                    {% cloudinary image.name width=50 height=50 crop="fill" %}
+                                {% endfor %}
+                            </div>
                         </div>
                     {% endfor %}
                     <hr>
                 {% else %}
                     <p>No cars are available.</p>
                 {% endif %}
-                {% url 'add_model' as add_model_url %}
-                {% bootstrap_button "Add a Model" button_type="link" href=add_model_url button_class="btn-primary" %}
             </section>
         </div>
     </body>

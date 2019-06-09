@@ -1,14 +1,11 @@
 """ views """
-import os
-
-from datetime import datetime
 from io import BytesIO
-from PIL import Image
 
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from google_images_search import GoogleImagesSearch
 import cloudinary.uploader
@@ -22,32 +19,41 @@ def connection(request):
         form = ConnectionForm(request.POST)
         if form.is_valid():
             user = authenticate(
+                request,
                 username=form.cleaned_data['username'],
                 password=form.cleaned_data['password']
             )
-            print(user)
             if user is not None:
+                login(request, user)
                 return redirect('model_list')
             else:
                 return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
             
     return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
 
+def deconnection(request):
+    logout(request)
+    return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+
+
 def registration(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
-            user = User.objects.create_user(
-                form.cleaned_data['username'],
-                form.cleaned_data['email'],
-                form.cleaned_data['password']
-            )
-            user.save()
-            return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+            try:
+                User.objects.get(username=form.cleaned_data['username'], email=form.cleaned_data['email'])
+            except User.DoesNotExist:
+                user = User.objects.create_user(
+                    form.cleaned_data['username'],
+                    form.cleaned_data['email'],
+                    form.cleaned_data['password']
+                )
+                user.save()
+                return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
 
     return render(request, 'djangautoapi/registration.html', context={'form': RegistrationForm()})
 
+@login_required
 def model_list(request):
     car_model_list = CarModel.objects.order_by('brand__name')
     image_model_list = []
@@ -60,9 +66,9 @@ def model_list(request):
         'image_model_list': image_model_list,
         'form': AddBrandForm(),
         }
-    print(image_model_list[0]['image_list'])
     return render(request, 'djangautoapi/model_list.html', context)
 
+@login_required
 def add_model(request):
     if request.method == 'POST':
         form = AddModelForm(request.POST)
@@ -110,11 +116,8 @@ def add_model(request):
 
     return render(request, 'djangautoapi/add_model.html', context={'form': AddModelForm()})
 
+@login_required
 def model_detail(request, car_model_pk):
     car_model = CarModel.objects.get(pk=car_model_pk)
     images = CarModelImage.objects.filter(model=car_model)
-    print(len(images))
-    print(images[0].name)
-    print(images[1].name)
-    print(images[2].name)
     return render(request, 'djangautoapi/model_detail.html', context={'images': images})

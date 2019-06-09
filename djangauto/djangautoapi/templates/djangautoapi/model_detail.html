@@ -22,7 +22,7 @@
         <div class="grid-wrapper">
             <div class="img">
                 {% for image in images %}
-                    {% cloudinary image.name width=100 height=100 crop="fill" %}
+                    {% cloudinary image.name width=200 height=200 crop="fill" %}
                 {% endfor %}
             </div>
         </div>
