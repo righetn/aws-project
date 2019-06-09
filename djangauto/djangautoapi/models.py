@@ -18,17 +18,17 @@ class CarModel(models.Model):
     )
     brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE)
     price = models.FloatField(null=False, blank=False, default=0)
-    stock = models.IntegerField(default=0)
 
     def __str__(self):
         return self.brand.__str__().replace('_', ' ') + ' ' + self.name.__str__().replace('_', ' ') + ' ' + self.production_year.__str__()
 
 class Car(models.Model):
     model = models.ForeignKey(CarModel, on_delete=models.CASCADE)
-    brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE)
+    price = models.FloatField(null=False, default=0)
+    occasion = models.BooleanField(null=False, default=False)
 
     def __str__(self):
-        return self.brand.__str__() + " " + self.model.__str__()
+        return self.model.__str__()
 
 class CarModelImage(models.Model):
     model = models.ForeignKey(CarModel, on_delete=models.CASCADE)

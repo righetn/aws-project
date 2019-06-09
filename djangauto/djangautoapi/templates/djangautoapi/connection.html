@@ -21,12 +21,8 @@
                 <form action="{% url 'connection' %}" method="post" class="form">
                     {% csrf_token %}
                     {% bootstrap_form form layout="inline" %}
-                    <div style="display: inline-block">
+                    <div class="form_container">
                         {% buttons submit="Connect" %}{% endbuttons %}
-                    </div>
-                    <div style="display: inline-block;">
-                        {% url 'registration' as registration_url %}
-                        {% bootstrap_button "Register" button_type="link" href=registration_url button_class="btn-primary" %}
                     </div>
                 </form>
             </div>

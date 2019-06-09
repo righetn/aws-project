@@ -34,10 +34,6 @@ h1 {
     display: inline-block;
 }
 
-label {
-    display: none;
-}
-
 .list-item {
     display: flex;
     justify-content: space-between;

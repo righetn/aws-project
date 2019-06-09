@@ -20,6 +20,10 @@
     <body>
         <section>
             <div class="logout">
+                {% if request.user.is_superuser %}
+                    {% url 'registration' as registration_url %}
+                    {% bootstrap_button "Register" button_type="link" href=registration_url button_class="btn-primary" %}
+                {% endif %}
                 {% url 'deconnection' as deconnection_url %}
                 {% bootstrap_button "Logout" button_type="link" href=deconnection_url button_class="btn-primary" %}
             </div>
@@ -32,7 +36,7 @@
                         <div>
                             <hr>
                             <div class="list-item">
-                                <a href="{% url 'model_detail' image_model.car_model.pk %}">{{ image_model.car_model }}</a>
+                                <a href="{% url 'car_list' image_model.car_model.pk %}">{{ image_model.car_model }}</a>
                                 <p>{{ image_model.car_model.price }} &euro;</p>
                                 <div>
                                     {% bootstrap_button "" button_type="submit" button_class="btn-primary fas fa-trash-alt" %}
@@ -47,7 +51,7 @@
                     {% endfor %}
                     <hr>
                 {% else %}
-                    <p>No cars are available.</p>
+                    <p>No models are available.</p>
                 {% endif %}
             </div>
         </section>

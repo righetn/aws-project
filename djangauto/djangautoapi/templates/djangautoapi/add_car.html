@@ -12,16 +12,16 @@
 <html>
     <head>
         <title>Djangauto - Modèles de {{car.brand}}</title>
-        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}" type="text/css">
     </head>
     <body>
         <div class="center">
             <section class="new-car-brand">
-                <h1>Ajouter un nouveau modèle de {{brand_name}}</h1>
-                <form action="{% url 'add_model' %}" method="post">
+                <h1>Ajouter une nouvelle voiture</h1>
+                <form action="{% url 'add_car' car_model_pk %}" method="post">
                     {% csrf_token %}
                     {% bootstrap_form form %}
-                    {% buttons submit='Add model' %}{% endbuttons %}
+                    {% buttons submit='Add Car' %}{% endbuttons %}
                 </form>
             </section>
         </div>

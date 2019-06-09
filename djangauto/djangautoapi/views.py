@@ -12,29 +12,7 @@ import cloudinary.uploader
 
 from .models import Car, CarModel, CarBrand, CarModelImage
 
-from .forms import AddBrandForm, AddModelForm, ConnectionForm, RegistrationForm
-
-# def connection(request):
-#     if request.method == 'POST':
-#         form = ConnectionForm(request.POST)
-#         if form.is_valid():
-#             user = authenticate(
-#                 request,
-#                 username=form.cleaned_data['username'],
-#                 password=form.cleaned_data['password']
-#             )
-#             if user is not None:
-#                 login(request, user)
-#                 return redirect('model_list')
-#             else:
-#                 return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
-            
-#     return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
-
-# def deconnection(request):
-#     logout(request)
-#     return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
-
+from .forms import AddModelForm, RegistrationForm, AddCarForm
 
 def registration(request):
     if request.method == 'POST':
@@ -49,7 +27,7 @@ def registration(request):
                     form.cleaned_data['password']
                 )
                 user.save()
-                return render(request, 'djangautoapi/connection.html', context={'form': ConnectionForm()})
+                return render(request, 'djangautoapi/connection.html')
 
     return render(request, 'djangautoapi/registration.html', context={'form': RegistrationForm()})
 
@@ -64,7 +42,6 @@ def model_list(request):
         })
     context = {
         'image_model_list': image_model_list,
-        'form': AddBrandForm(),
         }
     return render(request, 'djangautoapi/model_list.html', context)
 
@@ -116,8 +93,34 @@ def add_model(request):
 
     return render(request, 'djangautoapi/add_model.html', context={'form': AddModelForm()})
 
-@login_required
-def model_detail(request, car_model_pk):
+def car_list(request, car_model_pk):
+    car_list = Car.objects.filter(model=car_model_pk).order_by('occasion')
+    return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
+
+def add_car(request, car_model_pk):
     car_model = CarModel.objects.get(pk=car_model_pk)
+    if request.method == 'POST':
+        form = AddCarForm(request.POST)
+        if form.is_valid():
+            for i in range(form.cleaned_data['number']):
+                car = Car(
+                    model=car_model,
+                    price=form.cleaned_data['price'],
+                    occasion=form.cleaned_data['occasion'],
+                )
+                car.save()
+
+            car_list = Car.objects.filter(model=car_model_pk).order_by('occasion')
+            return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
+    
+    form = AddCarForm(initial={
+        'price': car_model.price,
+        'number': 1
+        })
+    return render(request, 'djangautoapi/add_car.html', context={'form': form, 'car_model_pk': car_model_pk})
+
+@login_required
+def car_detail(request, car_pk):
+    car_model = CarModel.objects.get(pk=car_pk)
     images = CarModelImage.objects.filter(model=car_model)
     return render(request, 'djangautoapi/model_detail.html', context={'images': images})

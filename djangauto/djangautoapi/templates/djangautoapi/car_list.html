@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap4 %}
+{% load static %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% load cloudinary %}
+{% load static %}
+<html>
+    <head>
+        <title>Djangauto - Liste des voitures</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}" type="text/css">
+    </head>
+    <body>
+        <section>
+            <div class="logout">
+                {% url 'deconnection' as deconnection_url %}
+                {% bootstrap_button "Logout" button_type="link" href=deconnection_url button_class="btn-primary" %}
+            </div>
+            <div class="list-page">
+                <h1>Liste des models de voitures</h1>
+                {% url 'add_car' car_model_pk as add_car_url %}
+                {% bootstrap_button "Add a Car" button_type="link" href=add_car_url button_class="btn-primary" %}
+                {% if car_list %}
+                    {% for car in car_list %}
+                        <div>
+                            <hr>
+                            <div class="list-item">
+                                <a href="{% url 'car_detail' car.model.pk %}">{{ car }}</a>
+                                <p>{{ car.price }} &euro;</p>
+                                <div>
+                                    {% bootstrap_button "" button_type="submit" button_class="btn-primary fas fa-trash-alt" %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <hr>
+                {% else %}
+                    <p>No cars are available.</p>
+                {% endif %}
+            </div>
+        </section>
+    </body>
+</html>
+
