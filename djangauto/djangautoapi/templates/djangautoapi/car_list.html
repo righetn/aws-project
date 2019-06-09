@@ -20,6 +20,10 @@
     <body>
         <section>
             <div class="logout">
+                <div class='home'>
+                    {% url 'model_list' as model_list_url %}
+                    {% bootstrap_button "" button_type="link" href=model_list_url button_class="btn-primary fas fa-home" %}
+                </div>
                 {% url 'deconnection' as deconnection_url %}
                 {% bootstrap_button "Logout" button_type="link" href=deconnection_url button_class="btn-primary" %}
             </div>
@@ -35,7 +39,8 @@
                                 <a href="{% url 'car_detail' car.model.pk %}">{{ car }}</a>
                                 <p>{{ car.price }} &euro;</p>
                                 <div>
-                                    {% bootstrap_button "" button_type="submit" button_class="btn-primary fas fa-trash-alt" %}
+                                    {% url 'remove_car' car.model.pk car.pk as remove_car_url %}
+                                    {% bootstrap_button "" button_type="link" href=remove_car_url button_class="btn-primary fas fa-trash-alt" %}
                                 </div>
                             </div>
                         </div>

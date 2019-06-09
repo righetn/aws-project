@@ -93,10 +93,12 @@ def add_model(request):
 
     return render(request, 'djangautoapi/add_model.html', context={'form': AddModelForm()})
 
+@login_required
 def car_list(request, car_model_pk):
     car_list = Car.objects.filter(model=car_model_pk).order_by('occasion')
     return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
 
+@login_required
 def add_car(request, car_model_pk):
     car_model = CarModel.objects.get(pk=car_model_pk)
     if request.method == 'POST':
@@ -118,6 +120,17 @@ def add_car(request, car_model_pk):
         'number': 1
         })
     return render(request, 'djangautoapi/add_car.html', context={'form': form, 'car_model_pk': car_model_pk})
+
+@login_required
+def remove_car(request, car_model_pk, car_pk):
+    car_list = Car.objects.filter(model=car_model_pk).order_by('occasion')
+    try:
+        car = Car.objects.get(pk=car_pk)
+        car.delete()
+        return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
+    except car.DoesNotExist:
+        return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
+
 
 @login_required
 def car_detail(request, car_pk):

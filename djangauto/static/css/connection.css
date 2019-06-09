@@ -48,3 +48,9 @@ h1 {
     justify-content: flex-end;
     margin: 10px;
 }
+
+.home {
+    display: flex;
+    justify-content: flex-start;
+    flex-grow: 1;
+}
