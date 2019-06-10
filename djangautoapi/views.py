@@ -14,6 +14,7 @@ from .models import Car, CarModel, CarBrand, CarModelImage
 
 from .forms import AddModelForm, RegistrationForm, AddCarForm
 
+@login_required
 def registration(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -27,7 +28,7 @@ def registration(request):
                     form.cleaned_data['password']
                 )
                 user.save()
-                return render(request, 'djangautoapi/connection.html')
+                return redirect('connection')
 
     return render(request, 'djangautoapi/registration.html', context={'form': RegistrationForm()})
 
