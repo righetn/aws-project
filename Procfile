@@ -1,1 +1,1 @@
-web: gunicorn djangautoapi.wsgi
+web: gunicorn djangauto.wsgi
