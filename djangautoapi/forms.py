@@ -34,6 +34,12 @@ class AddCarForm(forms.Form):
     occasion = forms.BooleanField(label='Occasion', required=False)
     number = forms.IntegerField(label='Number of cars to add', required=True)
 
+class EditCarForm(forms.Form):
+    price = forms.IntegerField(label='Price €',
+        validators=[MinValueValidator(0)],
+        required=True
+    )
+
 class RegistrationForm(forms.Form):
     username = forms.CharField(label='Username', max_length=30)
     email = forms.CharField(label='Email', max_length=100)

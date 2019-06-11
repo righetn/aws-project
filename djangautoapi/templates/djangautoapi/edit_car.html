@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{# Load the tag library #}
+{% load bootstrap4 %}
+{% load static %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+<html>
+    <head>
+        <title>Djangauto - Modèles de {{car.brand}}</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}" type="text/css">
+    </head>
+    <body>
+        <div class="center">
+            <section class="new-car-brand">
+                <h1>Editer une voiture</h1>
+                <form action="{% url 'edit_car' car_model_pk car_pk %}" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons submit='Edit Car' %}{% endbuttons %}
+                </form>
+            </section>
+        </div>
+    </body>
+</html>

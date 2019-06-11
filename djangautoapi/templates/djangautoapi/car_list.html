@@ -30,19 +30,41 @@
                 <h1>Liste des models de voitures</h1>
                 {% url 'add_car' car_model_pk as add_car_url %}
                 {% bootstrap_button "Add a Car" button_type="link" href=add_car_url button_class="btn-primary" %}
+                <div>
+                    <hr>
+                    <div class="list-item">
+                        <a href="{% url 'car_detail' car_model_pk %}">{{ car_model }}</a>
+                        <p>Neuve</p>
+                        <p>{{ car_model.price }} &euro;</p>
+                        {% url 'plus_car' car_model_pk as plus_car_url %}
+                        {% bootstrap_button "" button_type="link" href=plus_car_url button_class="btn-primary fas fa-plus" %}
+                    </div>
+                    <div class='list-item'>
+                        <p>Nombre voitures neuves : {{ nbn }}</p>
+                        {% url 'minus_car' car_model_pk as minus_car_url %}
+                        {% bootstrap_button "" button_type="link" href=minus_car_url button_class="btn-primary fas fa-minus" %}
+                    </div>
+                </div>
                 {% if car_list %}
                     {% for car in car_list %}
-                        <div>
-                            <hr>
-                            <div class="list-item">
-                                <a href="{% url 'car_detail' car.model.pk %}">{{ car }}</a>
-                                <p>{{ car.price }} &euro;</p>
-                                <div>
+                        {% if car.occasion %}
+                            <div>
+                                <hr>
+                                <div class="list-item">
+                                    <a href="{% url 'car_detail' car.model.pk %}">{{ car }}</a>
+                                    <p>Occasion</p>
+                                    <p>{{ car.price }} &euro;</p>
+                                    <div>
+                                        {% url 'edit_car' car.model.pk car.pk as edit_car_url %}
+                                        {% bootstrap_button "" button_type="link" href=edit_car_url button_class="btn-primary fas fa-edit" %}
+                                    </div>
+                                </div>
+                                <div class='edit'>
                                     {% url 'remove_car' car.model.pk car.pk as remove_car_url %}
                                     {% bootstrap_button "" button_type="link" href=remove_car_url button_class="btn-primary fas fa-trash-alt" %}
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
                     {% endfor %}
                     <hr>
                 {% else %}

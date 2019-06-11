@@ -36,16 +36,24 @@
                             <hr>
                             <div class="list-item">
                                 <a href="{% url 'car_list' image_model.car_model.pk %}">{{ image_model.car_model }}</a>
-                                <p>{{ image_model.car_model.price }} &euro;</p>
+                                <div class="info">
+                                    <p style="margin-right: 20px">{{ image_model.car_model.price }} &euro;</p>
+                                    <p style="margin-right: 20px">Nb. neuve : {{ image_model.nbn }}</p>
+                                    <p>Nb. occasion : {{ image_model.nbo }}</p>
+                                </div>
                                 <div>
                                     {% url 'remove_model' image_model.car_model.pk as remove_model_url %}
                                     {% bootstrap_button "" button_type="link" href=remove_model_url button_class="btn-primary fas fa-trash-alt" %}
                                 </div>
                             </div>
-                            <div>
-                                {% for image in image_model.image_list %}
-                                    {% cloudinary image.name width=50 height=50 crop="fill" %}
-                                {% endfor %}
+                            <div class="list-item">
+                                <div>
+                                    {% for image in image_model.image_list %}
+                                        {% cloudinary image.name width=50 height=50 crop="fill" %}
+                                    {% endfor %}
+                                </div>
+                                {% url 'edit_model' image_model.car_model.pk as edit_model_url %}
+                                {% bootstrap_button "" button_type="link" href=edit_model_url button_class="btn-primary fas fa-edit" %}
                             </div>
                         </div>
                     {% endfor %}
