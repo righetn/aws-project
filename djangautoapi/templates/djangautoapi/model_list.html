@@ -42,8 +42,8 @@
                                     <p>Nb. occasion : {{ image_model.nbo }}</p>
                                 </div>
                                 <div>
-                                    {% url 'remove_model' image_model.car_model.pk as remove_model_url %}
-                                    {% bootstrap_button "" button_type="link" href=remove_model_url button_class="btn-primary fas fa-trash-alt" %}
+                                    {% url 'edit_model' image_model.car_model.pk as edit_model_url %}
+                                    {% bootstrap_button "" button_type="link" href=edit_model_url button_class="btn-primary fas fa-edit" %}
                                 </div>
                             </div>
                             <div class="list-item">
@@ -52,8 +52,8 @@
                                         {% cloudinary image.name width=50 height=50 crop="fill" %}
                                     {% endfor %}
                                 </div>
-                                {% url 'edit_model' image_model.car_model.pk as edit_model_url %}
-                                {% bootstrap_button "" button_type="link" href=edit_model_url button_class="btn-primary fas fa-edit" %}
+                                {% url 'remove_model' image_model.car_model.pk as remove_model_url %}
+                                {% bootstrap_button "" button_type="link" href=remove_model_url button_class="btn-primary fas fa-trash-alt" %}
                             </div>
                         </div>
                     {% endfor %}

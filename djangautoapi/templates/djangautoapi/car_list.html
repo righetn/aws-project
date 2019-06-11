@@ -45,31 +45,27 @@
                         {% bootstrap_button "" button_type="link" href=minus_car_url button_class="btn-primary fas fa-minus" %}
                     </div>
                 </div>
-                {% if car_list %}
-                    {% for car in car_list %}
-                        {% if car.occasion %}
-                            <div>
-                                <hr>
-                                <div class="list-item">
-                                    <a href="{% url 'car_detail' car.model.pk %}">{{ car }}</a>
-                                    <p>Occasion</p>
-                                    <p>{{ car.price }} &euro;</p>
-                                    <div>
-                                        {% url 'edit_car' car.model.pk car.pk as edit_car_url %}
-                                        {% bootstrap_button "" button_type="link" href=edit_car_url button_class="btn-primary fas fa-edit" %}
-                                    </div>
-                                </div>
-                                <div class='edit'>
-                                    {% url 'remove_car' car.model.pk car.pk as remove_car_url %}
-                                    {% bootstrap_button "" button_type="link" href=remove_car_url button_class="btn-primary fas fa-trash-alt" %}
+                {% for car in car_list %}
+                    {% if car.occasion %}
+                        <div>
+                            <hr>
+                            <div class="list-item">
+                                <a href="{% url 'car_detail' car.model.pk %}">{{ car }}</a>
+                                <p>Occasion</p>
+                                <p>{{ car.price }} &euro;</p>
+                                <div>
+                                    {% url 'edit_car' car.model.pk car.pk as edit_car_url %}
+                                    {% bootstrap_button "" button_type="link" href=edit_car_url button_class="btn-primary fas fa-edit" %}
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                    <hr>
-                {% else %}
-                    <p>No cars are available.</p>
-                {% endif %}
+                            <div class='edit'>
+                                {% url 'remove_car' car.model.pk car.pk as remove_car_url %}
+                                {% bootstrap_button "" button_type="link" href=remove_car_url button_class="btn-primary fas fa-trash-alt" %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <hr>
             </div>
         </section>
     </body>
