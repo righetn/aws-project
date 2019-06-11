@@ -11,11 +11,10 @@
 {% bootstrap_messages %}
 
 {% load cloudinary %}
-{% load staticfiles %}
 <html>
     <head>
         <title>Djangauto - Models de voitures</title>
-        <link rel="stylesheet" href="static/css/style.css?{% now 'U' %}" type="text/css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?{% now 'U' %}" type="text/css">
     </head>
     <body>
         <section>
@@ -39,7 +38,8 @@
                                 <a href="{% url 'car_list' image_model.car_model.pk %}">{{ image_model.car_model }}</a>
                                 <p>{{ image_model.car_model.price }} &euro;</p>
                                 <div>
-                                    {% bootstrap_button "" button_type="submit" button_class="btn-primary fas fa-trash-alt" %}
+                                    {% url 'remove_model' image_model.car_model.pk as remove_model_url %}
+                                    {% bootstrap_button "" button_type="link" href=remove_model_url button_class="btn-primary fas fa-trash-alt" %}
                                 </div>
                             </div>
                             <div>

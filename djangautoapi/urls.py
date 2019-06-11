@@ -9,6 +9,7 @@ urlpatterns = [
     path('register', views.registration, name='registration'),
     path('model_list', views.model_list, name='model_list'),
     path('add_model', views.add_model, name="add_model"),
+    path('remove_model/<int:car_model_pk>', views.remove_model, name='remove_model'),
     path('car_list/<int:car_model_pk>', views.car_list, name='car_list'),
     path('add_car/<int:car_model_pk>', views.add_car, name='add_car'),
     path('remove_car/<int:car_model_pk>/<int:car_pk>', views.remove_car, name='remove_car'),

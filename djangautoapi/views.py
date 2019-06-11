@@ -32,8 +32,7 @@ def registration(request):
 
     return render(request, 'djangautoapi/registration.html', context={'form': RegistrationForm()})
 
-@login_required
-def model_list(request):
+def get_image_model_list():
     car_model_list = CarModel.objects.order_by('brand__name')
     image_model_list = []
     for car_model in car_model_list:
@@ -41,8 +40,12 @@ def model_list(request):
             'car_model': car_model,
             'image_list': CarModelImage.objects.filter(model=car_model)
         })
+    return image_model_list
+
+@login_required
+def model_list(request):
     context = {
-        'image_model_list': image_model_list,
+        'image_model_list': get_image_model_list(),
         }
     return render(request, 'djangautoapi/model_list.html', context)
 
@@ -55,6 +58,7 @@ def add_model(request):
             model_name = form.cleaned_data['model_name']
             model_name = model_name.replace(' ', '_')
             production_year = form.cleaned_data['production_year']
+            print(type(production_year))
             price = form.cleaned_data['price']
 
             # insert brand
@@ -95,6 +99,23 @@ def add_model(request):
     return render(request, 'djangautoapi/add_model.html', context={'form': AddModelForm()})
 
 @login_required
+def remove_model(request, car_model_pk):
+    print("remove model")
+    try:
+        car_model = CarModel.objects.get(pk=car_model_pk)
+        car_list = Car.objects.filter(model=car_model)
+        for car in car_list:
+            delete_car(car_model.pk, car.pk)
+        image_list = CarModelImage.objects.filter(model=car_model)
+        for image in image_list:
+            cloudinary.uploader.destroy(image.name)
+            image.delete()
+        car_model.delete()
+        return render(request, 'djangautoapi/model_list.html', context={'image_model_list': get_image_model_list()})
+    except CarModel.DoesNotExist:
+        return render(request, 'djangautoapi/model_list.html', context={'image_model_list': get_image_model_list()})
+
+@login_required
 def car_list(request, car_model_pk):
     car_list = Car.objects.filter(model=car_model_pk).order_by('occasion')
     return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
@@ -122,15 +143,19 @@ def add_car(request, car_model_pk):
         })
     return render(request, 'djangautoapi/add_car.html', context={'form': form, 'car_model_pk': car_model_pk})
 
-@login_required
-def remove_car(request, car_model_pk, car_pk):
-    car_list = Car.objects.filter(model=car_model_pk).order_by('occasion')
+def delete_car(car_model_pk, car_pk):
     try:
         car = Car.objects.get(pk=car_pk)
         car.delete()
-        return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
-    except car.DoesNotExist:
-        return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
+        return True
+    except Car.DoesNotExist:
+        return False
+
+@login_required
+def remove_car(request, car_model_pk, car_pk):
+    delete_car(car_model_pk, car_pk)
+    car_list = Car.objects.filter(model=car_model_pk).order_by('occasion')
+    return render(request, 'djangautoapi/car_list.html', context={'car_list': car_list, 'car_model_pk': car_model_pk})
 
 
 @login_required
