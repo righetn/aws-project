@@ -14,7 +14,10 @@ class CarBrand(models.Model):
 class CarModel(models.Model):
     name = models.CharField(max_length=30)
     production_year = models.PositiveIntegerField(
-        validators=[MinValueValidator(1900), MaxValueValidator(datetime.now().year)]
+        validators=[
+            MinValueValidator(1900),
+            MaxValueValidator(datetime.now().year)
+        ]
     )
     brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE)
     price = models.FloatField(null=False, blank=False, default=0)
