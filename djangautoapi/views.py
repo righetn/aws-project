@@ -321,7 +321,6 @@ def plus_car(request, car_model_pk):
 
 @login_required
 def minus_car(request, car_model_pk):
-    print("called")
     try:
         car_model = CarModel.objects.get(pk=car_model_pk)
         car_list = Car.objects.filter(model=car_model, occasion=False)
