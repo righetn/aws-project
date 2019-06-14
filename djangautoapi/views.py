@@ -49,8 +49,8 @@ def get_image_model_list():
             {
                 "car_model": car_model,
                 "image_list": CarModelImage.objects.filter(model=car_model),
-                "nbo": Car.objects.filter(occasion=True).count(),
-                "nbn": Car.objects.filter(occasion=False).count(),
+                "nbo": Car.objects.filter(model=car_model, occasion=True).count(),
+                "nbn": Car.objects.filter(model=car_model, occasion=False).count(),
             }
         )
     return image_model_list
