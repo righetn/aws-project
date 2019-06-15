@@ -140,3 +140,6 @@ if "DATABASE_URL" in os.environ:
         conn_max_age=600,
         ssl_require=True
     )
+
+if "CLOUDINARY_URL" not in os.environ:
+    os.environ["CLOUDINARY_URL"] = 'cloudinary://589131572575462:tW6H1UAWRAFA2x5LFg2a-CLHoq8@hspo0pxdt'

@@ -17,28 +17,30 @@ from .forms import AddModelForm, RegistrationForm, AddCarForm, EditCarForm
 
 @login_required
 def registration(request):
-    if request.method == "POST":
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            try:
-                User.objects.get(
-                    username=form.cleaned_data["username"],
-                    email=form.cleaned_data["email"],
-                )
-            except User.DoesNotExist:
-                user = User.objects.create_user(
-                    form.cleaned_data["username"],
-                    form.cleaned_data["email"],
-                    form.cleaned_data["password"],
-                )
-                user.save()
-                return redirect("connection")
+    if request.user.is_superuser:
+        if request.method == "POST":
+            form = RegistrationForm(request.POST)
+            if form.is_valid():
+                try:
+                    User.objects.get(
+                        username=form.cleaned_data["username"],
+                        email=form.cleaned_data["email"],
+                    )
+                except User.DoesNotExist:
+                    user = User.objects.create_user(
+                        form.cleaned_data["username"],
+                        form.cleaned_data["email"],
+                        form.cleaned_data["password"],
+                    )
+                    user.save()
+                    return redirect("connection")
 
-    return render(
-        request,
-        "djangautoapi/registration.html",
-        context={"form": RegistrationForm()}
-    )
+        return render(
+            request,
+            "djangautoapi/registration.html",
+            context={"form": RegistrationForm()}
+        )
+    return redirect("model_list")
 
 
 def get_image_model_list():
