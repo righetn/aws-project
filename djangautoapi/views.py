@@ -38,7 +38,7 @@ def registration(request):
         return render(
             request,
             "djangautoapi/registration.html",
-            context={"form": RegistrationForm()}
+            context={"form": RegistrationForm()},
         )
     return redirect("model_list")
 
@@ -51,8 +51,12 @@ def get_image_model_list():
             {
                 "car_model": car_model,
                 "image_list": CarModelImage.objects.filter(model=car_model),
-                "nbo": Car.objects.filter(model=car_model, occasion=True).count(),
-                "nbn": Car.objects.filter(model=car_model, occasion=False).count(),
+                "nbo": Car.objects.filter(
+                    model=car_model, occasion=True
+                ).count(),
+                "nbn": Car.objects.filter(
+                    model=car_model, occasion=False
+                ).count(),
             }
         )
     return image_model_list
@@ -68,7 +72,7 @@ def add_images(car_model):
     my_bytes_io = BytesIO()
     gis = GoogleImagesSearch(
         "AIzaSyDL-iX9_5bYDWB5BHzXuMcV7xHt4_7X2JM",
-        "003405953032685171249:uzag_hgt6fs"
+        "003405953032685171249:uzag_hgt6fs",
     )
     gis.search({"q": str(car_model), "num": 3, "imgSize": "medium"})
     for image in gis.results():
@@ -80,8 +84,7 @@ def add_images(car_model):
 
         # insert image
         carmodelimage = CarModelImage(
-            model=car_model,
-            name=response["public_id"]
+            model=car_model, name=response["public_id"]
         )
         carmodelimage.save()
 
@@ -107,8 +110,7 @@ def add_model(request):
             # insert model
             try:
                 CarModel.objects.get(
-                    name=model_name,
-                    production_year=production_year
+                    name=model_name, production_year=production_year
                 )
             except CarModel.DoesNotExist:
                 car_model = CarModel(
@@ -128,9 +130,7 @@ def add_model(request):
             return redirect("model_list")
         else:
             render(
-                request,
-                "djangautoapi/add_model.html",
-                context={"form": form}
+                request, "djangautoapi/add_model.html", context={"form": form}
             )
 
     return render(
@@ -184,7 +184,7 @@ def edit_model(request, car_model_pk):
                 car_model = CarModel.objects.get(
                     name=model_name,
                     brand=car_brand,
-                    production_year=production_year
+                    production_year=production_year,
                 )
                 car_model.price = price
                 car_model.save()
@@ -197,10 +197,9 @@ def edit_model(request, car_model_pk):
                 car_model.price = price
                 car_model.save()
                 add_images(car_model)
-            Car.objects.filter(
-                model=car_model,
-                occasion=False
-            ).update(price=price)
+            Car.objects.filter(model=car_model, occasion=False).update(
+                price=price
+            )
             return redirect("model_list")
 
     try:
@@ -225,10 +224,9 @@ def edit_model(request, car_model_pk):
 @login_required
 def car_list(request, car_model_pk):
     car_model = CarModel.objects.get(pk=car_model_pk)
-    car_list = Car.objects.filter(
-        model=car_model_pk,
-        occasion=True
-    ).order_by("price")
+    car_list = Car.objects.filter(model=car_model_pk, occasion=True).order_by(
+        "price"
+    )
     context = {
         "car_list": car_list,
         "car_model_pk": car_model_pk,
@@ -252,9 +250,9 @@ def add_car(request, car_model_pk):
                 )
                 car.save()
 
-            car_list = Car.objects.filter(
-                model=car_model_pk
-            ).order_by("occasion")
+            car_list = Car.objects.filter(model=car_model_pk).order_by(
+                "occasion"
+            )
             return redirect("car_list", car_model_pk=car_model_pk)
 
     form = AddCarForm(initial={"price": car_model.price, "number": 1})
@@ -301,11 +299,7 @@ def edit_car(request, car_model_pk, car_pk):
             "car_model_pk": car_model_pk,
             "car_pk": car_pk
         }
-        return render(
-            request,
-            "djangautoapi/edit_car.html",
-            context=context,
-        )
+        return render(request, "djangautoapi/edit_car.html", context=context)
     except (CarModel.DoesNotExist, Car.DoesNotExist) as e:
         return redirect("car_list", car_model_pk=car_model_pk)
 
@@ -338,7 +332,5 @@ def car_detail(request, car_pk):
     car_model = CarModel.objects.get(pk=car_pk)
     images = CarModelImage.objects.filter(model=car_model)
     return render(
-        request,
-        "djangautoapi/model_detail.html",
-        context={"images": images}
+        request, "djangautoapi/model_detail.html", context={"images": images}
     )

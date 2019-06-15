@@ -16,7 +16,7 @@ class CarModel(models.Model):
     production_year = models.PositiveIntegerField(
         validators=[
             MinValueValidator(1900),
-            MaxValueValidator(datetime.now().year)
+            MaxValueValidator(datetime.now().year),
         ]
     )
     brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE)

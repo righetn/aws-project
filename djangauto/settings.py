@@ -95,7 +95,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+    },
 ]
 
 
@@ -137,9 +139,10 @@ django_heroku.settings(locals())
 
 if "DATABASE_URL" in os.environ:
     DATABASES["default"] = dj_database_url.config(
-        conn_max_age=600,
-        ssl_require=True
+        conn_max_age=600, ssl_require=True
     )
 
 if "CLOUDINARY_URL" not in os.environ:
-    os.environ["CLOUDINARY_URL"] = 'cloudinary://589131572575462:tW6H1UAWRAFA2x5LFg2a-CLHoq8@hspo0pxdt'
+    os.environ[
+        "CLOUDINARY_URL"
+    ] = "cloudinary://589131572575462:tW6H1UAWRAFA2x5LFg2a-CLHoq8@hspo0pxdt"
