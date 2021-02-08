@@ -16,7 +16,7 @@ google-auth==1.6.3
 google-auth-httplib2==0.0.3
 Google-Images-Search==0.3.6
 gunicorn==19.9.0
-httplib2==0.12.3
+httplib2==0.19.0
 idna==2.8
 isort==4.3.20
 lazy-object-proxy==1.4.1
